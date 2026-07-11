@@ -8,9 +8,15 @@ public class GameManager : MonoBehaviour
     public int TowerHealth;
 
     [SerializeField] private GameObject m_enemyPrefab;
+    [SerializeField] private List<EnemyController> m_selectedEnemies = new List<EnemyController>();
     [SerializeField] private float m_timeRemaining;
+    [SerializeField] private float m_maxWidth = 300f;
+    [SerializeField] private float m_maxHeight = 150f;
 
     private Queue<GameObject> m_enemyPool = new Queue<GameObject>();
+    private Vector2 m_dragStartPosition;
+    private Vector2 m_dragEndPosition;
+    private bool m_isDragging;
     private float m_xBoundary = 11f;
     private float m_yBoundary = 7f;
     private float m_enemySpawnDelay = 2f;
@@ -35,6 +41,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateEnemySpawnDelay();
+        GetPlayerDragPosition();
         if (m_timeRemaining <= 0)
         {
             GameWin();
@@ -60,6 +67,63 @@ public class GameManager : MonoBehaviour
             //
             IsGameRunning = false;
         }
+    }
+    private void GetPlayerDragPosition()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            m_dragStartPosition = Input.mousePosition;
+            m_isDragging = true;
+        }
+        if (Input.GetMouseButton(0))
+        {
+            Vector2 delta = (Vector2)Input.mousePosition - m_dragStartPosition;
+            delta.x = Mathf.Clamp(delta.x, -m_maxWidth, m_maxWidth);
+            delta.y = Mathf.Clamp(delta.y, -m_maxHeight, m_maxHeight);
+            m_dragEndPosition = m_dragStartPosition + delta;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            m_isDragging = false;
+            SelectEnemiesInRectangle();
+        }
+    }
+    private void SelectEnemiesInRectangle()
+    {
+        m_selectedEnemies.Clear();
+        Rect selectionRect = GetScreenRect(m_dragStartPosition, m_dragEndPosition);
+        EnemyController[] allEnemies = FindObjectsOfType<EnemyController>();
+        foreach (var enemy in allEnemies)
+        {
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(enemy.transform.position);
+            if (selectionRect.Contains(screenPosition))
+            {
+                m_selectedEnemies.Add(enemy);
+                enemy.Lives--;
+            }
+        }
+    }
+    private void OnGUI()
+    {
+        if (!m_isDragging)
+        {
+            return;
+        }
+        Vector2 start = m_dragStartPosition;
+        Vector2 end = m_dragEndPosition;
+        start.y = Screen.height - start.y;
+        end.y = Screen.height - end.y;
+        Rect rect = GetScreenRect(start, end);
+        GUI.color = new Color(0, 1, 0, 0.25f);
+        GUI.Box(rect, "");
+    }
+    private Rect GetScreenRect(Vector2 p1, Vector2 p2)
+    {
+        float x = Mathf.Min(p1.x, p2.x);
+        float y = Mathf.Min(p1.y, p2.y);
+        float width = Mathf.Abs(p1.x - p2.x);
+        float height = Mathf.Abs(p1.y - p2.y);
+        return new Rect(x, y, width, height);
     }
     private IEnumerator SpawnEnemies()
     {

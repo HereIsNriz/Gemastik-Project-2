@@ -99,9 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df6c3cdc012acaf48b9fdfcb4f5f5546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_towerGameObject: {fileID: 0}
+  Lives: 2
   m_speed: 150
-  m_lives: 2
 --- !u!50 &7952470942389974680
 Rigidbody2D:
   serializedVersion: 4

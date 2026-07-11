@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public int Lives = 2;
+
     [SerializeField] private float m_speed;
-    [SerializeField] private int m_lives;
 
     private GameObject m_towerGameObject;
     private Rigidbody2D m_enemyRb;
@@ -22,8 +23,9 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_lives <= 0)
+        if (Lives <= 0)
         {
+            Lives = 2;
             m_gameManager.ReturnEnemyBackIntoPool(this.gameObject);
         }
         else

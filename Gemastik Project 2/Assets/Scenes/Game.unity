@@ -237,7 +237,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerHealth: 100
   m_enemyPrefab: {fileID: 8448873883781576857, guid: 1bc289adb93f1f8439c3a811d0faeef9, type: 3}
+  m_selectedEnemies: []
   m_timeRemaining: 300
+  m_maxWidth: 500
+  m_maxHeight: 350
 --- !u!4 &577773466
 Transform:
   m_ObjectHideFlags: 0
