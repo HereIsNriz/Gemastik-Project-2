@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public bool IsGameRunning {  get; private set; }
     public int TowerHealth;
 
+    [SerializeField] private Slider m_towerHealthBar;
     [SerializeField] private GameObject m_enemyPrefab;
     [SerializeField] private GameObject m_gameLosePanel;
     [SerializeField] private GameObject m_gameWinPanel;
@@ -37,11 +40,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         IsGameRunning = true;
+        m_towerHealthBar.maxValue = TowerHealth;
         StartCoroutine(SpawnEnemies());
     }
     // Update is called once per frame
     void Update()
     {
+        UpdateTowerHealth();
         UpdateEnemySpawnDelay();
         GetPlayerDragPosition();
         if (m_timeRemaining <= 0 && TowerHealth > 0)
@@ -54,7 +59,7 @@ public class GameManager : MonoBehaviour
         }
         if (IsGameRunning)
         {
-            m_timeRemaining -= Time.deltaTime;
+            UpdateCountDown();
         }
     }
     private void GameWin()
@@ -62,6 +67,7 @@ public class GameManager : MonoBehaviour
         if (IsGameRunning)
         {
             // SFX and stop the music
+            m_towerHealthBar.gameObject.SetActive(false);
             m_gameWinPanel.gameObject.SetActive(true);
             IsGameRunning = false;
         }
@@ -71,6 +77,7 @@ public class GameManager : MonoBehaviour
         if (IsGameRunning)
         {
             // SFX and stop the music
+            m_towerHealthBar.gameObject.SetActive(false);
             m_gameLosePanel.gameObject.SetActive(true);
             IsGameRunning = false;
         }
@@ -201,6 +208,14 @@ public class GameManager : MonoBehaviour
         {
             m_enemySpawnDelay = 2f;
         }
+    }
+    private void UpdateCountDown()
+    {
+        m_timeRemaining -= Time.deltaTime;
+    }
+    private void UpdateTowerHealth()
+    {
+        m_towerHealthBar.value = TowerHealth;
     }
     // Enemy pool
     private GameObject StoreEnemyIntoPool()
