@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public int TowerHealth;
 
     [SerializeField] private GameObject m_enemyPrefab;
+    [SerializeField] private GameObject m_gameLosePanel;
+    [SerializeField] private GameObject m_gameWinPanel;
     [SerializeField] private List<EnemyController> m_selectedEnemies = new List<EnemyController>();
     [SerializeField] private float m_timeRemaining;
     [SerializeField] private float m_maxWidth = 300f;
@@ -42,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateEnemySpawnDelay();
         GetPlayerDragPosition();
-        if (m_timeRemaining <= 0)
+        if (m_timeRemaining <= 0 && TowerHealth > 0)
         {
             GameWin();
         }
@@ -50,13 +52,17 @@ public class GameManager : MonoBehaviour
         {
             GameLose();
         }
-        m_timeRemaining -= Time.deltaTime;
+        if (IsGameRunning)
+        {
+            m_timeRemaining -= Time.deltaTime;
+        }
     }
     private void GameWin()
     {
         if (IsGameRunning)
         {
-            //
+            // SFX and stop the music
+            m_gameWinPanel.gameObject.SetActive(true);
             IsGameRunning = false;
         }
     }
@@ -64,7 +70,8 @@ public class GameManager : MonoBehaviour
     {
         if (IsGameRunning)
         {
-            //
+            // SFX and stop the music
+            m_gameLosePanel.gameObject.SetActive(true);
             IsGameRunning = false;
         }
     }
