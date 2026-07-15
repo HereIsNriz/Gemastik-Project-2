@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public bool IsGameRunning {  get; private set; }
     public int TowerHealth;
 
+    [SerializeField] private TextMeshProUGUI m_countDownText;
     [SerializeField] private Slider m_towerHealthBar;
     [SerializeField] private GameObject m_enemyPrefab;
     [SerializeField] private GameObject m_gameLosePanel;
@@ -67,6 +69,7 @@ public class GameManager : MonoBehaviour
         if (IsGameRunning)
         {
             // SFX and stop the music
+            m_countDownText.gameObject.SetActive(false);
             m_towerHealthBar.gameObject.SetActive(false);
             m_gameWinPanel.gameObject.SetActive(true);
             IsGameRunning = false;
@@ -77,6 +80,7 @@ public class GameManager : MonoBehaviour
         if (IsGameRunning)
         {
             // SFX and stop the music
+            m_countDownText.gameObject.SetActive(false);
             m_towerHealthBar.gameObject.SetActive(false);
             m_gameLosePanel.gameObject.SetActive(true);
             IsGameRunning = false;
@@ -212,6 +216,10 @@ public class GameManager : MonoBehaviour
     private void UpdateCountDown()
     {
         m_timeRemaining -= Time.deltaTime;
+        int second = Mathf.FloorToInt(m_timeRemaining % 60);
+        int minute = Mathf.FloorToInt(m_timeRemaining / 60);
+        m_countDownText.text = string.Format("{0:00}:{1:00}", minute, second);
+
     }
     private void UpdateTowerHealth()
     {
