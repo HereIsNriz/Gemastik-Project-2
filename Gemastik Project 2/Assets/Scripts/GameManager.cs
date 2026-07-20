@@ -13,12 +13,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_countDownText;
     [SerializeField] private Slider m_towerHealthBar;
     [SerializeField] private GameObject m_enemyPrefab;
+    [SerializeField] private GameObject m_levelSelectionPanel;
     [SerializeField] private GameObject m_gameLosePanel;
     [SerializeField] private GameObject m_gameWinPanel;
     [SerializeField] private List<EnemyController> m_selectedEnemies = new List<EnemyController>();
     [SerializeField] private float m_timeRemaining;
     [SerializeField] private float m_maxWidth = 300f;
     [SerializeField] private float m_maxHeight = 150f;
+    [SerializeField] private int m_selectedLevel;
+    [SerializeField] private bool m_isLevel1Cleared;
+    [SerializeField] private bool m_isLevel2Cleared;
+    [SerializeField] private bool m_isLevel3Cleared;
+    [SerializeField] private bool m_isLevel4Cleared;
+    [SerializeField] private bool m_isLevel5Cleared;
 
     private Queue<GameObject> m_enemyPool = new Queue<GameObject>();
     private Vector2 m_dragStartPosition;
@@ -41,9 +48,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IsGameRunning = true;
-        m_towerHealthBar.maxValue = TowerHealth;
-        StartCoroutine(SpawnEnemies());
+        IsGameRunning = false;
+        m_levelSelectionPanel.gameObject.SetActive(true);
     }
     // Update is called once per frame
     void Update()
@@ -190,27 +196,140 @@ public class GameManager : MonoBehaviour
         Vector2 m_enemySpawnPosition = new Vector2(-m_xBoundary, randomYPosition);
         LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
     }
+    public void ClickLevel1Button()
+    {
+        m_selectedLevel = 1;
+        TowerHealth = 20;
+        m_timeRemaining = 60f;
+        m_towerHealthBar.maxValue = TowerHealth;
+        m_countDownText.gameObject.SetActive(true);
+        m_towerHealthBar.gameObject.SetActive(true);
+        m_levelSelectionPanel.gameObject.SetActive(false);
+        IsGameRunning = true;
+        StartCoroutine(SpawnEnemies());
+    }
+    public void ClickLevel2Button()
+    {
+        m_selectedLevel = 2;
+        TowerHealth = 30;
+        m_timeRemaining = 120f;
+        m_towerHealthBar.maxValue = TowerHealth;
+        m_countDownText.gameObject.SetActive(true);
+        m_towerHealthBar.gameObject.SetActive(true);
+        m_levelSelectionPanel.gameObject.SetActive(false);
+        IsGameRunning = true;
+        StartCoroutine(SpawnEnemies());
+    }
+    public void ClickLevel3Button()
+    {
+        m_selectedLevel = 3;
+        TowerHealth = 50;
+        m_timeRemaining = 180f;
+        m_towerHealthBar.maxValue = TowerHealth;
+        m_countDownText.gameObject.SetActive(true);
+        m_towerHealthBar.gameObject.SetActive(true);
+        m_levelSelectionPanel.gameObject.SetActive(false);
+        IsGameRunning = true;
+        StartCoroutine(SpawnEnemies());
+    }
+    public void ClickLevel4Button()
+    {
+        m_selectedLevel = 4;
+        TowerHealth = 60;
+        m_timeRemaining = 240f;
+        m_towerHealthBar.maxValue = TowerHealth;
+        m_countDownText.gameObject.SetActive(true);
+        m_towerHealthBar.gameObject.SetActive(true);
+        m_levelSelectionPanel.gameObject.SetActive(false);
+        IsGameRunning = true;
+        StartCoroutine(SpawnEnemies());
+    }
+    public void ClickLevel5Button()
+    {
+        m_selectedLevel = 5;
+        TowerHealth = 80;
+        m_timeRemaining = 300f;
+        m_towerHealthBar.maxValue = TowerHealth;
+        m_countDownText.gameObject.SetActive(true);
+        m_towerHealthBar.gameObject.SetActive(true);
+        m_levelSelectionPanel.gameObject.SetActive(false);
+        IsGameRunning = true;
+        StartCoroutine(SpawnEnemies());
+    }
     private void UpdateEnemySpawnDelay()
     {
-        if (m_timeRemaining <= 60f)
+        switch (m_selectedLevel)
         {
-            m_enemySpawnDelay = 0.25f;
-        }
-        else if (m_timeRemaining <= 120f)
-        {
-            m_enemySpawnDelay = 0.5f;
-        }
-        else if (m_timeRemaining <= 180f)
-        {
-            m_enemySpawnDelay = 1f;
-        }
-        else if (m_timeRemaining <= 240f)
-        {
-            m_enemySpawnDelay = 1.5f;
-        }
-        else if (m_timeRemaining <= 300f)
-        {
-            m_enemySpawnDelay = 2f;
+            case 1:
+                if (m_timeRemaining <= 60f)
+                {
+                    m_enemySpawnDelay = 2f;
+                }
+                break;
+            case 2:
+                if (m_timeRemaining <= 60f)
+                {
+                    m_enemySpawnDelay = 1.75f;
+                }
+                else if (m_timeRemaining <= 120f)
+                {
+                    m_enemySpawnDelay = 2f;
+                }
+                break;
+            case 3:
+                if (m_timeRemaining <= 60f)
+                {
+                    m_enemySpawnDelay = 1.5f;
+                }
+                else if (m_timeRemaining <= 120f)
+                {
+                    m_enemySpawnDelay = 1.75f;
+                }
+                else if (m_timeRemaining <= 180f)
+                {
+                    m_enemySpawnDelay = 2f;
+                }
+                break;
+            case 4:
+                if (m_timeRemaining <= 60f)
+                {
+                    m_enemySpawnDelay = 1.25f;
+                }
+                else if (m_timeRemaining <= 120f)
+                {
+                    m_enemySpawnDelay = 1.5f;
+                }
+                else if (m_timeRemaining <= 180f)
+                {
+                    m_enemySpawnDelay = 1.75f;
+                }
+                else if (m_timeRemaining <= 240f)
+                {
+                    m_enemySpawnDelay = 2f;
+                }
+                break;
+            case 5:
+                if (m_timeRemaining <= 60f)
+                {
+                    m_enemySpawnDelay = 1f;
+                }
+                else if (m_timeRemaining <= 120f)
+                {
+                    m_enemySpawnDelay = 1.25f;
+                }
+                else if (m_timeRemaining <= 180f)
+                {
+                    m_enemySpawnDelay = 1.5f;
+                }
+                else if (m_timeRemaining <= 240f)
+                {
+                    m_enemySpawnDelay = 1.75f;
+                }
+                else if (m_timeRemaining <= 300f)
+                {
+                    m_enemySpawnDelay = 2f;
+                }
+                break;
         }
     }
     private void UpdateCountDown()
