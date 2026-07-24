@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider m_towerHealthBar;
     [SerializeField] private GameObject m_enemyPrefab;
     [SerializeField] private GameObject m_levelSelectionPanel;
+    [SerializeField] private GameObject m_levelNotCompletedWarning;
     [SerializeField] private GameObject m_gameLosePanel;
     [SerializeField] private GameObject m_gameWinPanel;
     [SerializeField] private List<EnemyController> m_selectedEnemies = new List<EnemyController>();
@@ -21,11 +22,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float m_maxWidth = 300f;
     [SerializeField] private float m_maxHeight = 150f;
     [SerializeField] private int m_selectedLevel;
-    [SerializeField] private bool m_isLevel1Cleared;
-    [SerializeField] private bool m_isLevel2Cleared;
-    [SerializeField] private bool m_isLevel3Cleared;
-    [SerializeField] private bool m_isLevel4Cleared;
-    [SerializeField] private bool m_isLevel5Cleared;
+    [SerializeField] private int m_level1Status;
+    [SerializeField] private int m_level2Status;
+    [SerializeField] private int m_level3Status;
+    [SerializeField] private int m_level4Status;
+    [SerializeField] private int m_level5Status;
 
     private Queue<GameObject> m_enemyPool = new Queue<GameObject>();
     private Vector2 m_dragStartPosition;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     private float m_xBoundary = 11f;
     private float m_yBoundary = 7f;
     private float m_enemySpawnDelay = 2f;
+    private float m_warningDelay = 2f;
     private int m_poolSize = 10;
     private int m_minIndex = 1;
     private int m_maxIndex = 5;
@@ -75,6 +77,29 @@ public class GameManager : MonoBehaviour
         if (IsGameRunning)
         {
             // SFX and stop the music
+            switch (m_selectedLevel)
+            {
+                case 1:
+                    m_level1Status = 1;
+                    PlayerPrefs.SetInt("Level1Status", m_level1Status);
+                    break;
+                case 2:
+                    m_level2Status = 1;
+                    PlayerPrefs.SetInt("Level2Status", m_level2Status);
+                    break;
+                case 3:
+                    m_level3Status = 1;
+                    PlayerPrefs.SetInt("Level3Status", m_level3Status);
+                    break;
+                case 4:
+                    m_level4Status = 1;
+                    PlayerPrefs.SetInt("Level4Status", m_level4Status);
+                    break;
+                case 5:
+                    m_level5Status = 1;
+                    PlayerPrefs.SetInt("Level5Status", m_level5Status);
+                    break;
+            }
             m_countDownText.gameObject.SetActive(false);
             m_towerHealthBar.gameObject.SetActive(false);
             m_gameWinPanel.gameObject.SetActive(true);
@@ -210,51 +235,88 @@ public class GameManager : MonoBehaviour
     }
     public void ClickLevel2Button()
     {
-        m_selectedLevel = 2;
-        TowerHealth = 30;
-        m_timeRemaining = 120f;
-        m_towerHealthBar.maxValue = TowerHealth;
-        m_countDownText.gameObject.SetActive(true);
-        m_towerHealthBar.gameObject.SetActive(true);
-        m_levelSelectionPanel.gameObject.SetActive(false);
-        IsGameRunning = true;
-        StartCoroutine(SpawnEnemies());
+        if (PlayerPrefs.GetInt("Level1Status") == 1)
+        {
+            m_selectedLevel = 2;
+            TowerHealth = 30;
+            m_timeRemaining = 120f;
+            m_towerHealthBar.maxValue = TowerHealth;
+            m_countDownText.gameObject.SetActive(true);
+            m_towerHealthBar.gameObject.SetActive(true);
+            m_levelSelectionPanel.gameObject.SetActive(false);
+            IsGameRunning = true;
+            StartCoroutine(SpawnEnemies());
+        }
+        else
+        {
+            m_levelNotCompletedWarning.gameObject.SetActive(true);
+            StartCoroutine(RemoveWarning());
+        }
     }
     public void ClickLevel3Button()
     {
-        m_selectedLevel = 3;
-        TowerHealth = 50;
-        m_timeRemaining = 180f;
-        m_towerHealthBar.maxValue = TowerHealth;
-        m_countDownText.gameObject.SetActive(true);
-        m_towerHealthBar.gameObject.SetActive(true);
-        m_levelSelectionPanel.gameObject.SetActive(false);
-        IsGameRunning = true;
-        StartCoroutine(SpawnEnemies());
+        if (PlayerPrefs.GetInt("Level2Status") == 1)
+        {
+            m_selectedLevel = 3;
+            TowerHealth = 50;
+            m_timeRemaining = 180f;
+            m_towerHealthBar.maxValue = TowerHealth;
+            m_countDownText.gameObject.SetActive(true);
+            m_towerHealthBar.gameObject.SetActive(true);
+            m_levelSelectionPanel.gameObject.SetActive(false);
+            IsGameRunning = true;
+            StartCoroutine(SpawnEnemies());
+        }
+        else
+        {
+            m_levelNotCompletedWarning.gameObject.SetActive(true);
+            StartCoroutine(RemoveWarning());
+        }
     }
     public void ClickLevel4Button()
     {
-        m_selectedLevel = 4;
-        TowerHealth = 60;
-        m_timeRemaining = 240f;
-        m_towerHealthBar.maxValue = TowerHealth;
-        m_countDownText.gameObject.SetActive(true);
-        m_towerHealthBar.gameObject.SetActive(true);
-        m_levelSelectionPanel.gameObject.SetActive(false);
-        IsGameRunning = true;
-        StartCoroutine(SpawnEnemies());
+        if (PlayerPrefs.GetInt("Level3Status") == 1)
+        {
+            m_selectedLevel = 4;
+            TowerHealth = 60;
+            m_timeRemaining = 240f;
+            m_towerHealthBar.maxValue = TowerHealth;
+            m_countDownText.gameObject.SetActive(true);
+            m_towerHealthBar.gameObject.SetActive(true);
+            m_levelSelectionPanel.gameObject.SetActive(false);
+            IsGameRunning = true;
+            StartCoroutine(SpawnEnemies());
+        }
+        else
+        {
+            m_levelNotCompletedWarning.gameObject.SetActive(true);
+            StartCoroutine(RemoveWarning());
+        }
     }
     public void ClickLevel5Button()
     {
-        m_selectedLevel = 5;
-        TowerHealth = 80;
-        m_timeRemaining = 300f;
-        m_towerHealthBar.maxValue = TowerHealth;
-        m_countDownText.gameObject.SetActive(true);
-        m_towerHealthBar.gameObject.SetActive(true);
-        m_levelSelectionPanel.gameObject.SetActive(false);
-        IsGameRunning = true;
-        StartCoroutine(SpawnEnemies());
+        if (PlayerPrefs.GetInt("Level4Status") == 1)
+        {
+            m_selectedLevel = 5;
+            TowerHealth = 80;
+            m_timeRemaining = 300f;
+            m_towerHealthBar.maxValue = TowerHealth;
+            m_countDownText.gameObject.SetActive(true);
+            m_towerHealthBar.gameObject.SetActive(true);
+            m_levelSelectionPanel.gameObject.SetActive(false);
+            IsGameRunning = true;
+            StartCoroutine(SpawnEnemies());
+        }
+        else
+        {
+            m_levelNotCompletedWarning.gameObject.SetActive(true);
+            StartCoroutine(RemoveWarning());
+        }
+    }
+    private IEnumerator RemoveWarning()
+    {
+        yield return new WaitForSeconds(m_warningDelay);
+        m_levelNotCompletedWarning.gameObject.SetActive(false);
     }
     private void UpdateEnemySpawnDelay()
     {

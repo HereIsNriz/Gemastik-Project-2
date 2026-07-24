@@ -39,4 +39,8 @@ public class MenuManager : MonoBehaviour
         //Application.Quit();
         EditorApplication.ExitPlaymode();
     }
+    public void DeleteAllKeyButton()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }
