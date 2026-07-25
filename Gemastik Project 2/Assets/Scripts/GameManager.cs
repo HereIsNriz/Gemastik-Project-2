@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     private float m_yBoundary = 7f;
     private float m_enemySpawnDelay = 2f;
     private float m_warningDelay = 2f;
+    private float m_soundDelay = 0.2f;
     private int m_poolSize = 10;
     private int m_minIndex = 1;
     private int m_maxIndex = 5;
@@ -405,6 +406,16 @@ public class GameManager : MonoBehaviour
     private void UpdateTowerHealth()
     {
         m_towerHealthBar.value = TowerHealth;
+    }
+    public void BackToMenuButton()
+    {
+        // SFX
+        StartCoroutine(BackToMenuButtonSound());
+    }
+    private IEnumerator BackToMenuButtonSound()
+    {
+        yield return new WaitForSeconds(m_soundDelay);
+        SceneManager.LoadScene(0);
     }
     // Enemy pool
     private GameObject StoreEnemyIntoPool()
