@@ -120,22 +120,25 @@ public class GameManager : MonoBehaviour
     }
     private void GetPlayerDragPosition()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (IsGameRunning)
         {
-            m_dragStartPosition = Input.mousePosition;
-            m_isDragging = true;
-        }
-        if (Input.GetMouseButton(0))
-        {
-            Vector2 delta = (Vector2)Input.mousePosition - m_dragStartPosition;
-            delta.x = Mathf.Clamp(delta.x, -m_maxWidth, m_maxWidth);
-            delta.y = Mathf.Clamp(delta.y, -m_maxHeight, m_maxHeight);
-            m_dragEndPosition = m_dragStartPosition + delta;
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            m_isDragging = false;
-            SelectEnemiesInRectangle();
+            if (Input.GetMouseButtonDown(0))
+            {
+                m_dragStartPosition = Input.mousePosition;
+                m_isDragging = true;
+            }
+            if (Input.GetMouseButton(0))
+            {
+                Vector2 delta = (Vector2)Input.mousePosition - m_dragStartPosition;
+                delta.x = Mathf.Clamp(delta.x, -m_maxWidth, m_maxWidth);
+                delta.y = Mathf.Clamp(delta.y, -m_maxHeight, m_maxHeight);
+                m_dragEndPosition = m_dragStartPosition + delta;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                m_isDragging = false;
+                SelectEnemiesInRectangle();
+            }
         }
     }
     private void SelectEnemiesInRectangle()
