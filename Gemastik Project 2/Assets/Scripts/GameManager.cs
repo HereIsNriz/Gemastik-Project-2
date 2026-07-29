@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.GetInt("Level1Status") == 1)
         {
             m_selectedLevel = 2;
-            TowerHealth = 30;
+            TowerHealth = 20;
             m_timeRemaining = 120f;
             m_towerHealthBar.maxValue = TowerHealth;
             m_countDownText.gameObject.SetActive(true);
@@ -262,7 +262,7 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.GetInt("Level2Status") == 1)
         {
             m_selectedLevel = 3;
-            TowerHealth = 50;
+            TowerHealth = 40;
             m_timeRemaining = 180f;
             m_towerHealthBar.maxValue = TowerHealth;
             m_countDownText.gameObject.SetActive(true);
@@ -302,7 +302,7 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.GetInt("Level4Status") == 1)
         {
             m_selectedLevel = 5;
-            TowerHealth = 80;
+            TowerHealth = 100;
             m_timeRemaining = 300f;
             m_towerHealthBar.maxValue = TowerHealth;
             m_countDownText.gameObject.SetActive(true);
@@ -329,71 +329,71 @@ public class GameManager : MonoBehaviour
             case 1:
                 if (m_timeRemaining <= 60f)
                 {
-                    m_enemySpawnDelay = 2f;
+                    m_enemySpawnDelay = 1f;
                 }
                 break;
             case 2:
                 if (m_timeRemaining <= 60f)
                 {
-                    m_enemySpawnDelay = 1.75f;
+                    m_enemySpawnDelay = 0.8f;
                 }
                 else if (m_timeRemaining <= 120f)
                 {
-                    m_enemySpawnDelay = 2f;
+                    m_enemySpawnDelay = 1f;
                 }
                 break;
             case 3:
                 if (m_timeRemaining <= 60f)
                 {
-                    m_enemySpawnDelay = 1.5f;
+                    m_enemySpawnDelay = 0.6f;
                 }
                 else if (m_timeRemaining <= 120f)
                 {
-                    m_enemySpawnDelay = 1.75f;
+                    m_enemySpawnDelay = 0.8f;
                 }
                 else if (m_timeRemaining <= 180f)
                 {
-                    m_enemySpawnDelay = 2f;
+                    m_enemySpawnDelay = 1f;
                 }
                 break;
             case 4:
                 if (m_timeRemaining <= 60f)
                 {
-                    m_enemySpawnDelay = 1.25f;
+                    m_enemySpawnDelay = 0.4f;
                 }
                 else if (m_timeRemaining <= 120f)
                 {
-                    m_enemySpawnDelay = 1.5f;
+                    m_enemySpawnDelay = 0.6f;
                 }
                 else if (m_timeRemaining <= 180f)
                 {
-                    m_enemySpawnDelay = 1.75f;
+                    m_enemySpawnDelay = 0.8f;
                 }
                 else if (m_timeRemaining <= 240f)
                 {
-                    m_enemySpawnDelay = 2f;
+                    m_enemySpawnDelay = 1f;
                 }
                 break;
             case 5:
                 if (m_timeRemaining <= 60f)
                 {
-                    m_enemySpawnDelay = 1f;
+                    m_enemySpawnDelay = 0.2f;
                 }
                 else if (m_timeRemaining <= 120f)
                 {
-                    m_enemySpawnDelay = 1.25f;
+                    m_enemySpawnDelay = 0.4f;
                 }
                 else if (m_timeRemaining <= 180f)
                 {
-                    m_enemySpawnDelay = 1.5f;
+                    m_enemySpawnDelay = 0.6f;
                 }
                 else if (m_timeRemaining <= 240f)
                 {
-                    m_enemySpawnDelay = 1.75f;
+                    m_enemySpawnDelay = 0.8f;
                 }
                 else if (m_timeRemaining <= 300f)
                 {
-                    m_enemySpawnDelay = 2f;
+                    m_enemySpawnDelay = 1f;
                 }
                 break;
         }

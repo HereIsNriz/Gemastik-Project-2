@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public int Lives = 2;
+    public int Lives = 1;
 
     [SerializeField] private float m_speed;
 
@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour
     {
         if (Lives <= 0)
         {
-            Lives = 2;
+            Lives = 1;
             m_gameManager.ReturnEnemyBackIntoPool(this.gameObject);
         }
         else
