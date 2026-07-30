@@ -6,6 +6,8 @@ using UnityEditor;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField] private AudioSource m_buttonsSound;
+
     private float m_soundDelay = 0.2f;
 
     // Start is called before the first frame update
@@ -20,7 +22,7 @@ public class MenuManager : MonoBehaviour
     }
     public void PressPlayButton()
     {
-        // SFX
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         StartCoroutine(PlayButtonSound());
     }
     private IEnumerator PlayButtonSound()
@@ -30,7 +32,7 @@ public class MenuManager : MonoBehaviour
     }
     public void PressExitButton()
     {
-        // SFX
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         StartCoroutine(ExitButtonSound());
     }
     private IEnumerator ExitButtonSound()
@@ -41,6 +43,7 @@ public class MenuManager : MonoBehaviour
     }
     public void DeleteAllKeyButton()
     {
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         PlayerPrefs.DeleteAll();
     }
 }

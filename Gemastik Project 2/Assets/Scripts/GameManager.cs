@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource m_gameWinSound;
     [SerializeField] private AudioSource m_playerHitSound;
     [SerializeField] private AudioSource m_enemyDeadSound;
+    [SerializeField] private AudioSource m_buttonsSound;
     [SerializeField] private List<EnemyController> m_selectedEnemies = new List<EnemyController>();
     [SerializeField] private float m_timeRemaining;
     [SerializeField] private float m_maxWidth = 300f;
@@ -233,6 +234,7 @@ public class GameManager : MonoBehaviour
     }
     public void ClickLevel1Button()
     {
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         m_selectedLevel = 1;
         TowerHealth = 20;
         m_timeRemaining = 60f;
@@ -245,6 +247,7 @@ public class GameManager : MonoBehaviour
     }
     public void ClickLevel2Button()
     {
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         if (PlayerPrefs.GetInt("Level1Status") == 1)
         {
             m_selectedLevel = 2;
@@ -265,6 +268,7 @@ public class GameManager : MonoBehaviour
     }
     public void ClickLevel3Button()
     {
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         if (PlayerPrefs.GetInt("Level2Status") == 1)
         {
             m_selectedLevel = 3;
@@ -285,6 +289,7 @@ public class GameManager : MonoBehaviour
     }
     public void ClickLevel4Button()
     {
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         if (PlayerPrefs.GetInt("Level3Status") == 1)
         {
             m_selectedLevel = 4;
@@ -305,6 +310,7 @@ public class GameManager : MonoBehaviour
     }
     public void ClickLevel5Button()
     {
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         if (PlayerPrefs.GetInt("Level4Status") == 1)
         {
             m_selectedLevel = 5;
@@ -418,7 +424,7 @@ public class GameManager : MonoBehaviour
     }
     public void BackToMenuButton()
     {
-        // SFX
+        m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         StartCoroutine(BackToMenuButtonSound());
     }
     private IEnumerator BackToMenuButtonSound()
