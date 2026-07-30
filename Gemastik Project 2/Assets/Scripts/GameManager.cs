@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_gameWinPanel;
     [SerializeField] private AudioSource m_gameOverSound;
     [SerializeField] private AudioSource m_gameWinSound;
+    [SerializeField] private AudioSource m_playerHitSound;
     [SerializeField] private List<EnemyController> m_selectedEnemies = new List<EnemyController>();
     [SerializeField] private float m_timeRemaining;
     [SerializeField] private float m_maxWidth = 300f;
@@ -423,6 +424,10 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(m_soundDelay);
         SceneManager.LoadScene(0);
+    }
+    public void PlayPlayerHitSound()
+    {
+        m_playerHitSound.PlayOneShot(m_playerHitSound.clip, 1f);
     }
     // Enemy pool
     private GameObject StoreEnemyIntoPool()

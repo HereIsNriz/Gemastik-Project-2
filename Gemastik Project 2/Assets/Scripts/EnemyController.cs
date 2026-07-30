@@ -57,6 +57,7 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             m_gameManager.TowerHealth--;
+            m_gameManager.PlayPlayerHitSound();
             m_gameManager.ReturnEnemyBackIntoPool(this.gameObject);
         }
     }
