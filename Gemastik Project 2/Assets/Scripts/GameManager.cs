@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_levelNotCompletedWarning;
     [SerializeField] private GameObject m_gameLosePanel;
     [SerializeField] private GameObject m_gameWinPanel;
+    [SerializeField] private AudioSource m_gameOverSound;
     [SerializeField] private List<EnemyController> m_selectedEnemies = new List<EnemyController>();
     [SerializeField] private float m_timeRemaining;
     [SerializeField] private float m_maxWidth = 300f;
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviour
         if (IsGameRunning)
         {
             // SFX and stop the music
+            m_gameOverSound.PlayOneShot(m_gameOverSound.clip, 1f);
             m_countDownText.gameObject.SetActive(false);
             m_towerHealthBar.gameObject.SetActive(false);
             m_gameLosePanel.gameObject.SetActive(true);
