@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
         if (Lives <= 0)
         {
             Lives = 1;
+            m_gameManager.PlayEnemyDeadSound();
             m_gameManager.ReturnEnemyBackIntoPool(this.gameObject);
         }
         else
