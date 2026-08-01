@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public bool IsGameRunning {  get; private set; }
     public int TowerHealth;
+    public int EnemyDeathCount;
 
     [SerializeField] private TextMeshProUGUI m_countDownText;
     [SerializeField] private Slider m_towerHealthBar;
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour
         UpdateTowerHealth();
         UpdateEnemySpawnDelay();
         GetPlayerDragPosition();
+        KillAllEnemiesInScreen();
         if (m_timeRemaining <= 0 && TowerHealth > 0)
         {
             GameWin();
@@ -421,6 +423,21 @@ public class GameManager : MonoBehaviour
     private void UpdateTowerHealth()
     {
         m_towerHealthBar.value = TowerHealth;
+    }
+    private void KillAllEnemiesInScreen()
+    {
+        if (EnemyDeathCount >= 10)
+        {
+            PlayEnemyDeadSound();
+            EnemyController[] allEnemiesInScreen = FindObjectsOfType<EnemyController>();
+            foreach (var enemy in allEnemiesInScreen)
+            {
+                ReturnEnemyBackIntoPool(enemy.gameObject);
+            }
+            // MediumEnemyController
+            // StrongEnemyController
+            EnemyDeathCount = 0;
+        }
     }
     public void BackToMenuButton()
     {
