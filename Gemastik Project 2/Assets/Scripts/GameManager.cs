@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource m_playerHitSound;
     [SerializeField] private AudioSource m_enemyDeadSound;
     [SerializeField] private AudioSource m_buttonsSound;
-    [SerializeField] private List<EnemyController> m_selectedEnemies = new List<EnemyController>();
     [SerializeField] private float m_timeRemaining;
     [SerializeField] private float m_maxWidth = 300f;
     [SerializeField] private float m_maxHeight = 150f;
@@ -158,7 +157,6 @@ public class GameManager : MonoBehaviour
     }
     private void SelectEnemiesInRectangle()
     {
-        m_selectedEnemies.Clear();
         Rect selectionRect = GetScreenRect(m_dragStartPosition, m_dragEndPosition);
         EnemyController[] allEnemies = FindObjectsOfType<EnemyController>();
         foreach (var enemy in allEnemies)
@@ -166,7 +164,6 @@ public class GameManager : MonoBehaviour
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(enemy.transform.position);
             if (selectionRect.Contains(screenPosition))
             {
-                m_selectedEnemies.Add(enemy);
                 enemy.Lives--;
             }
         }
@@ -625,10 +622,10 @@ public class GameManager : MonoBehaviour
         m_enemyPool.Enqueue(enemy);
         return enemy;
     }
-    private GameObject LetOutEnemyFromPool(Vector2 location, Quaternion rotation)
+    private GameObject LetOutEnemyFromPool(Vector2 position, Quaternion rotation)
     {
         GameObject enemy = m_enemyPool.Count > 0 ? m_enemyPool.Dequeue() : StoreEnemyIntoPool();
-        enemy.transform.SetPositionAndRotation(location, rotation);
+        enemy.transform.SetPositionAndRotation(position, rotation);
         enemy.SetActive(true);
         return enemy;
     }
@@ -645,10 +642,10 @@ public class GameManager : MonoBehaviour
         m_mediumEnemyPool.Enqueue(mediumEnemy);
         return mediumEnemy;
     }
-    private GameObject LetOutMediumEnemyFromPool(Vector2 location, Quaternion rotation)
+    private GameObject LetOutMediumEnemyFromPool(Vector2 position, Quaternion rotation)
     {
         GameObject mediumEnemy = m_mediumEnemyPool.Count > 0 ? m_mediumEnemyPool.Dequeue() : StoreMediumEnemyIntoPool();
-        mediumEnemy.transform.SetPositionAndRotation(location, rotation);
+        mediumEnemy.transform.SetPositionAndRotation(position, rotation);
         mediumEnemy.SetActive(true);
         return mediumEnemy;
     }
@@ -665,10 +662,10 @@ public class GameManager : MonoBehaviour
         m_strongEnemyPool.Enqueue(strongEnemy);
         return strongEnemy;
     }
-    private GameObject LetOutStrongEnemyFromPool(Vector2 location, Quaternion rotation)
+    private GameObject LetOutStrongEnemyFromPool(Vector2 position, Quaternion rotation)
     {
         GameObject strongEnemy = m_strongEnemyPool.Count > 0 ? m_strongEnemyPool.Dequeue() : StoreStrongEnemyIntoPool();
-        strongEnemy.transform.SetPositionAndRotation(location, rotation);
+        strongEnemy.transform.SetPositionAndRotation(position, rotation);
         strongEnemy?.SetActive(true);
         return strongEnemy;
     }
