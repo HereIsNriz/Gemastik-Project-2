@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_countDownText;
     [SerializeField] private Slider m_towerHealthBar;
     [SerializeField] private GameObject m_enemyPrefab;
+    [SerializeField] private GameObject m_mediumEnemyPrefab;
+    [SerializeField] private GameObject m_strongEnemyPrefab;
     [SerializeField] private GameObject m_levelSelectionPanel;
     [SerializeField] private GameObject m_levelNotCompletedWarning;
     [SerializeField] private GameObject m_gameLosePanel;
@@ -35,6 +37,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int m_level5Status;
 
     private Queue<GameObject> m_enemyPool = new Queue<GameObject>();
+    private Queue<GameObject> m_mediumEnemyPool = new Queue<GameObject>();
+    private Queue<GameObject> m_strongEnemyPool = new Queue<GameObject>();
     private Vector2 m_dragStartPosition;
     private Vector2 m_dragEndPosition;
     private bool m_isDragging;
@@ -52,6 +56,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < m_poolSize; i++)
         {
             StoreEnemyIntoPool();
+            StoreMediumEnemyIntoPool();
+            StoreStrongEnemyIntoPool();
         }
     }
     // Start is called before the first frame update
@@ -164,6 +170,24 @@ public class GameManager : MonoBehaviour
                 enemy.Lives--;
             }
         }
+        MediumEnemyController[] allMediumEnemies = FindObjectsOfType<MediumEnemyController>();
+        foreach (var mediumEnemy in allMediumEnemies)
+        {
+            Vector3 mediumEnemyPosition = Camera.main.WorldToScreenPoint(mediumEnemy.transform.position);
+            if (selectionRect.Contains(mediumEnemyPosition))
+            {
+                mediumEnemy.Lives--;
+            }
+        }
+        StrongEnemyController[] allStrongEnemies = FindObjectsOfType<StrongEnemyController>();
+        foreach (var strongEnemy in allStrongEnemies)
+        {
+            Vector3 strongEnemyPosition = Camera.main.WorldToScreenPoint(strongEnemy.transform.position);
+            if (selectionRect.Contains(strongEnemyPosition))
+            {
+                strongEnemy.Lives--;
+            }
+        }
     }
     private void OnGUI()
     {
@@ -214,25 +238,153 @@ public class GameManager : MonoBehaviour
     {
         float randomXPosition = Random.Range(-m_xBoundary, m_xBoundary);
         Vector2 m_enemySpawnPosition = new Vector2(randomXPosition, m_yBoundary);
-        LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+        if (m_selectedLevel == 1 || m_selectedLevel == 2)
+        {
+            LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+        }
+        else if (m_selectedLevel == 3 || m_selectedLevel == 4)
+        {
+            int randomIndex = Random.Range(m_minIndex, m_maxIndex - 2);
+            switch (randomIndex)
+            {
+                case 1:
+                    LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 2:
+                    LetOutMediumEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+            }
+        }
+        else if (m_selectedLevel == 5)
+        {
+            int randomIndex = Random.Range(m_minIndex, m_maxIndex - 1);
+            switch (randomIndex)
+            {
+                case 1:
+                    LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 2:
+                    LetOutMediumEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 3:
+                    LetOutStrongEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+            }
+        }
     }
     private void SpawnEnemiesFromBelow()
     {
         float randomXPosition = Random.Range(-m_xBoundary, m_xBoundary);
         Vector2 m_enemySpawnPosition = new Vector2(randomXPosition, -m_yBoundary);
-        LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+        if (m_selectedLevel == 1 || m_selectedLevel == 2)
+        {
+            LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+        }
+        else if (m_selectedLevel == 3 || m_selectedLevel == 4)
+        {
+            int randomIndex = Random.Range(m_minIndex, m_maxIndex - 2);
+            switch (randomIndex)
+            {
+                case 1:
+                    LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 2:
+                    LetOutMediumEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+            }
+        }
+        else if (m_selectedLevel == 5)
+        {
+            int randomIndex = Random.Range(m_minIndex, m_maxIndex - 1);
+            switch (randomIndex)
+            {
+                case 1:
+                    LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 2:
+                    LetOutMediumEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 3:
+                    LetOutStrongEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+            }
+        }
     }
     private void SpawnEnemiesFromRight()
     {
         float randomYPosition = Random.Range(-m_yBoundary, m_yBoundary);
         Vector2 m_enemySpawnPosition = new Vector2(m_xBoundary, randomYPosition);
-        LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+        if (m_selectedLevel == 1 || m_selectedLevel == 2)
+        {
+            LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+        }
+        else if (m_selectedLevel == 3 || m_selectedLevel == 4)
+        {
+            int randomIndex = Random.Range(m_minIndex, m_maxIndex - 2);
+            switch (randomIndex)
+            {
+                case 1:
+                    LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 2:
+                    LetOutMediumEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+            }
+        }
+        else if (m_selectedLevel == 5)
+        {
+            int randomIndex = Random.Range(m_minIndex, m_maxIndex - 1);
+            switch (randomIndex)
+            {
+                case 1:
+                    LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 2:
+                    LetOutMediumEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 3:
+                    LetOutStrongEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+            }
+        }
     }
     private void SpawnEnemiesFromLeft()
     {
         float randomYPosition = Random.Range(-m_yBoundary, m_yBoundary);
         Vector2 m_enemySpawnPosition = new Vector2(-m_xBoundary, randomYPosition);
-        LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+        if (m_selectedLevel == 1 || m_selectedLevel == 2)
+        {
+            LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+        }
+        else if (m_selectedLevel == 3 || m_selectedLevel == 4)
+        {
+            int randomIndex = Random.Range(m_minIndex, m_maxIndex - 2);
+            switch (randomIndex)
+            {
+                case 1:
+                    LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 2:
+                    LetOutMediumEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+            }
+        }
+        else if (m_selectedLevel == 5)
+        {
+            int randomIndex = Random.Range(m_minIndex, m_maxIndex - 1);
+            switch (randomIndex)
+            {
+                case 1:
+                    LetOutEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 2:
+                    LetOutMediumEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+                case 3:
+                    LetOutStrongEnemyFromPool(m_enemySpawnPosition, Quaternion.identity);
+                    break;
+            }
+        }
     }
     public void ClickLevel1Button()
     {
@@ -434,8 +586,16 @@ public class GameManager : MonoBehaviour
             {
                 ReturnEnemyBackIntoPool(enemy.gameObject);
             }
-            // MediumEnemyController
-            // StrongEnemyController
+            MediumEnemyController[] allMediumEnemiesInScreen = FindObjectsOfType<MediumEnemyController>();
+            foreach (var mediumEnemy in allMediumEnemiesInScreen)
+            {
+                ReturnMediumEnemyBackIntoPool(mediumEnemy.gameObject);
+            }
+            StrongEnemyController[] allStrongEnemiesInScreen = FindObjectsOfType<StrongEnemyController>();
+            foreach (var strongEnemy in allStrongEnemiesInScreen)
+            {
+                ReturnStrongEnemyBackIntoPool(strongEnemy.gameObject);
+            }
             EnemyDeathCount = 0;
         }
     }
@@ -476,5 +636,45 @@ public class GameManager : MonoBehaviour
     {
         enemy.SetActive(false);
         m_enemyPool.Enqueue(enemy);
+    }
+    // Medium Enemy Pool
+    private GameObject StoreMediumEnemyIntoPool()
+    {
+        GameObject mediumEnemy = Instantiate(m_mediumEnemyPrefab);
+        mediumEnemy.SetActive(false);
+        m_mediumEnemyPool.Enqueue(mediumEnemy);
+        return mediumEnemy;
+    }
+    private GameObject LetOutMediumEnemyFromPool(Vector2 location, Quaternion rotation)
+    {
+        GameObject mediumEnemy = m_mediumEnemyPool.Count > 0 ? m_mediumEnemyPool.Dequeue() : StoreMediumEnemyIntoPool();
+        mediumEnemy.transform.SetPositionAndRotation(location, rotation);
+        mediumEnemy.SetActive(true);
+        return mediumEnemy;
+    }
+    public void ReturnMediumEnemyBackIntoPool(GameObject mediumEnemy)
+    {
+        mediumEnemy.SetActive(false);
+        m_mediumEnemyPool.Enqueue(mediumEnemy);
+    }
+    // Strong Enemy Pool
+    private GameObject StoreStrongEnemyIntoPool()
+    {
+        GameObject strongEnemy = Instantiate(m_strongEnemyPrefab);
+        strongEnemy.SetActive(false);
+        m_strongEnemyPool.Enqueue(strongEnemy);
+        return strongEnemy;
+    }
+    private GameObject LetOutStrongEnemyFromPool(Vector2 location, Quaternion rotation)
+    {
+        GameObject strongEnemy = m_strongEnemyPool.Count > 0 ? m_strongEnemyPool.Dequeue() : StoreStrongEnemyIntoPool();
+        strongEnemy.transform.SetPositionAndRotation(location, rotation);
+        strongEnemy?.SetActive(true);
+        return strongEnemy;
+    }
+    public void ReturnStrongEnemyBackIntoPool(GameObject strongEnemy)
+    {
+        strongEnemy.SetActive(false);
+        m_strongEnemyPool.Enqueue(strongEnemy);
     }
 }
