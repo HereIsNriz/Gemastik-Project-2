@@ -1125,6 +1125,7 @@ MonoBehaviour:
   EnemyDeathCount: 0
   m_countDownText: {fileID: 485692475}
   m_towerHealthBar: {fileID: 1720310224}
+  m_playerAnimator: {fileID: 864437452}
   m_enemyPrefab: {fileID: 8448873883781576857, guid: 1bc289adb93f1f8439c3a811d0faeef9, type: 3}
   m_mediumEnemyPrefab: {fileID: 2290041586767612087, guid: 5a4c4cfe4c0142e4b816098359fcf764, type: 3}
   m_strongEnemyPrefab: {fileID: 8183472745765377563, guid: e4273e8ecfe1b76419b927a153a8db6e, type: 3}

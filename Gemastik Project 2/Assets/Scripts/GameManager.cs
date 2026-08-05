@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI m_countDownText;
     [SerializeField] private Slider m_towerHealthBar;
+    [SerializeField] private Animator m_playerAnimator;
     [SerializeField] private GameObject m_enemyPrefab;
     [SerializeField] private GameObject m_mediumEnemyPrefab;
     [SerializeField] private GameObject m_strongEnemyPrefab;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
     private float m_enemySpawnDelay = 2f;
     private float m_warningDelay = 2f;
     private float m_soundDelay = 0.2f;
+    private int m_startingTowerHealth;
     private int m_poolSize = 10;
     private int m_minIndex = 1;
     private int m_maxIndex = 5;
@@ -388,6 +390,7 @@ public class GameManager : MonoBehaviour
         m_buttonsSound.PlayOneShot(m_buttonsSound.clip, 1f);
         m_selectedLevel = 1;
         TowerHealth = 20;
+        m_startingTowerHealth = TowerHealth;
         m_timeRemaining = 60f;
         m_towerHealthBar.maxValue = TowerHealth;
         m_countDownText.gameObject.SetActive(true);
@@ -403,6 +406,7 @@ public class GameManager : MonoBehaviour
         {
             m_selectedLevel = 2;
             TowerHealth = 20;
+            m_startingTowerHealth = TowerHealth;
             m_timeRemaining = 120f;
             m_towerHealthBar.maxValue = TowerHealth;
             m_countDownText.gameObject.SetActive(true);
@@ -424,6 +428,7 @@ public class GameManager : MonoBehaviour
         {
             m_selectedLevel = 3;
             TowerHealth = 40;
+            m_startingTowerHealth = TowerHealth;
             m_timeRemaining = 180f;
             m_towerHealthBar.maxValue = TowerHealth;
             m_countDownText.gameObject.SetActive(true);
@@ -445,6 +450,7 @@ public class GameManager : MonoBehaviour
         {
             m_selectedLevel = 4;
             TowerHealth = 60;
+            m_startingTowerHealth = TowerHealth;
             m_timeRemaining = 240f;
             m_towerHealthBar.maxValue = TowerHealth;
             m_countDownText.gameObject.SetActive(true);
@@ -466,6 +472,7 @@ public class GameManager : MonoBehaviour
         {
             m_selectedLevel = 5;
             TowerHealth = 100;
+            m_startingTowerHealth = TowerHealth;
             m_timeRemaining = 300f;
             m_towerHealthBar.maxValue = TowerHealth;
             m_countDownText.gameObject.SetActive(true);
@@ -572,6 +579,14 @@ public class GameManager : MonoBehaviour
     private void UpdateTowerHealth()
     {
         m_towerHealthBar.value = TowerHealth;
+        if (TowerHealth <= (m_startingTowerHealth / 4))
+        {
+            m_playerAnimator.Play("Player_Stage3_Animation");
+        }
+        else if (TowerHealth <= (m_startingTowerHealth / 2))
+        {
+            m_playerAnimator.Play("Player_Stage2_Animation");
+        }
     }
     private void KillAllEnemiesInScreen()
     {
