@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.29411766, g: 1, b: 0.29411766, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 0.9411765}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1125,6 +1125,7 @@ MonoBehaviour:
   EnemyDeathCount: 0
   m_countDownText: {fileID: 485692475}
   m_towerHealthBar: {fileID: 1720310224}
+  m_healthColor: {fileID: 176243803}
   m_playerAnimator: {fileID: 864437452}
   m_enemyPrefab: {fileID: 8448873883781576857, guid: 1bc289adb93f1f8439c3a811d0faeef9, type: 3}
   m_mediumEnemyPrefab: {fileID: 2290041586767612087, guid: 5a4c4cfe4c0142e4b816098359fcf764, type: 3}
@@ -4215,7 +4216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.29411766, b: 0.29411766, a: 1}
+  m_Color: {r: 0.73333335, g: 0.73333335, b: 0.73333335, a: 0.9411765}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

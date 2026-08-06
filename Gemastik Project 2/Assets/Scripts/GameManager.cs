@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI m_countDownText;
     [SerializeField] private Slider m_towerHealthBar;
+    [SerializeField] private Image m_healthColor;
     [SerializeField] private Animator m_playerAnimator;
     [SerializeField] private GameObject m_enemyPrefab;
     [SerializeField] private GameObject m_mediumEnemyPrefab;
@@ -581,10 +582,12 @@ public class GameManager : MonoBehaviour
         m_towerHealthBar.value = TowerHealth;
         if (TowerHealth <= (m_startingTowerHealth / 4))
         {
+            m_healthColor.color = Color.red;
             m_playerAnimator.Play("Player_Stage3_Animation");
         }
         else if (TowerHealth <= (m_startingTowerHealth / 2))
         {
+            m_healthColor.color = Color.yellow;
             m_playerAnimator.Play("Player_Stage2_Animation");
         }
     }
